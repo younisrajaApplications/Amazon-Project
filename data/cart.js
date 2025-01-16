@@ -27,3 +27,8 @@ export function updateCartStorage() {
 export function deleteCartItem(index) {
     cart.splice(index, 1);
 }
+
+export function updateDeliveryOption(index, delivery) {
+    cart[index].deliveryID = delivery;
+    updateCartStorage();
+}

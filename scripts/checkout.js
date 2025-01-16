@@ -1,4 +1,4 @@
-import { cart, deleteCartItem, updateCartStorage } from '../data/cart.js';
+import { cart, deleteCartItem, updateCartStorage, updateDeliveryOption } from '../data/cart.js';
 import { deliveryOptions } from '../data/deliveryOptions.js';
 import { products } from '../data/products.js';
 import { getPrice } from './utils/money.js';
@@ -68,6 +68,7 @@ function createOrderSummary() {
     });
     document.querySelector('.js-order-summary').innerHTML = cartSectionHTML;
     addDeleteListners();
+    addDeliveryOptionsListeners()
 }
 
 function generateDeliveryHTML(productIndex) {
@@ -76,8 +77,8 @@ function generateDeliveryHTML(productIndex) {
     deliveryOptions.forEach((option, index) => {
         const deliveryChoice = deliveryID === index + 1 ? 'checked' : '';
         generatedHTML += 
-        `<div class="delivery-option">
-            <input type="radio" ${deliveryChoice} class="delivery-option-input" name="delivery-option-${productIndex}">
+        `<div class="delivery-option js-delivery-option" data-index="${productIndex}" data-delivery-id="${index + 1}">
+            <input type="radio" ${deliveryChoice} class="delivery-option-input" data-option-id="${deliveryID}" name="delivery-option-${productIndex}">
             <div>
                 <div class="delivery-option-date">
                     ${dayjs().add(option.days, 'days').format('dddd, MMMM D')}
@@ -96,6 +97,17 @@ function addDeleteListners() {
         deleteBtn.addEventListener('click', () => {
             deleteCartItem(index);
             updateCartStorage();
+            createOrderSummary();
+        })
+    });
+}
+
+function addDeliveryOptionsListeners() {
+    document.querySelectorAll('.js-delivery-option').forEach((option) => {
+        option.addEventListener('click', () => {
+            const productIndex = option.dataset.index;
+            const deliveryID = Number(option.dataset.deliveryId);
+            updateDeliveryOption(productIndex, deliveryID);
             createOrderSummary();
         })
     });
