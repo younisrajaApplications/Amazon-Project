@@ -14,7 +14,8 @@ export function addToCart(productId) {
     if (!existingItem) {
         cart.push({
             productId : productId,
-            quantity: 1
+            quantity: 1,
+            deliveryID : 1
         });
     }
 }
