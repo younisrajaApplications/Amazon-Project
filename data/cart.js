@@ -22,3 +22,7 @@ export function addToCart(productId) {
 export function updateCartStorage() {
     localStorage.setItem('cart', JSON.stringify(cart));
 }
+
+export function deleteCartItem(index) {
+    cart.splice(index, 1);
+}
