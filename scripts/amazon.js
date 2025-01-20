@@ -75,5 +75,5 @@ function updateQuantity() {
     })
 
     document.querySelector('.js-cart-quantity').innerHTML = totalQuantity;
-}
+};
 
